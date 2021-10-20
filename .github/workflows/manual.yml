@@ -1,0 +1,29 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Java CI with Maven
+
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+    - name: Creating a Team
+      run: | 
+        echo "Login to git api "
+        curl -i -u ${{ secrets.GITHUBUSER }}:${{ secrets.GITHUBPASS }} https://api.github.com/user
+        echo "completed"
+    - name: Updating Permissions for Devops Dev and Test
+      run: curl -X PATCH -H "Accept:application/vnd.github.v3+json" -H "Authorization:${{ secrets.TOKEN }}" https://api.github.com/orgs/ajaykatke2005/teams/Devops -d '{"permission":"admin"}'
